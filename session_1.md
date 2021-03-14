@@ -7,17 +7,17 @@
 
 ## The Internet
 
-The the internet was started in the late 1960's early 1970' as the result of a research project called ARPANET where the US department of defense was trying to build a communication system that could survive a nuclear attack. The researches thought of breaking messages up into blocks and sending them as as fast as possible in every possible direction thought the mesh network. Eventually the researches built a nation wide experimental packet network that worked.
+The internet was started in the late 1960's early 1970' as the result of a research project called ARPANET where the US department of defense was trying to build a communication system that could survive a nuclear attack. The researches thought of breaking messages up into blocks and sending them as as fast as possible in every possible direction thought the mesh network. Eventually the researches built a nation wide experimental packet network that worked.
 
 ![a network of interconnected computers](https://www.cs.utexas.edu/~mitra/csFall2018/cs329/lectures/fig1.gif)
 
 ### IP Addresses
 
-To send a message through this network a way to identify each computer in the network was necessary.This was what the Internet Protocol(IP) came to to solve. The IP protocol dictates that each computer should have and IP address comprised of 4 decimal triplets of the form `xxx.xxx.xxx.xxx` where `xxx` would range between `0-255`. This gave us about 4.1 million addresses.
+To send a message through this network a way to identify each computer in the network was necessary. This was what the Internet Protocol(IP) came to to solve. The IP protocol dictates that each computer should have and IP address comprised of 4 decimal triplets of the form `xxx.xxx.xxx.xxx` where `xxx` would range between `0-255`. This gave us about 4.1 million addresses.
 
 ![IPv4 address in dotted-decimal notation](https://upload.wikimedia.org/wikipedia/commons/7/74/Ipv4_address.svg)
 
-With this, each packet the IP address of the sender and the IP address of the destination in its header. Router computers in the network, running IP routing software are then able direct the message to its destination.
+Each packet contains the IP address of the sender and the IP address of the destination in its header. Router computers in the network, running IP routing software are then able direct the messages to its destination.
 
 ### The World Wide Web
 
