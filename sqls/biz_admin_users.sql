@@ -1,0 +1,10 @@
+insert into biz_admin_users (email, firstname, lastname, phone) values ('lscolts0@csmonitor.com', 'Leanor', 'Scolts', '403-929-2945');
+insert into biz_admin_users (email, firstname, lastname, phone) values ('rslane1@google.pl', 'Rollins', 'Slane', '772-386-4170');
+insert into biz_admin_users (email, firstname, lastname, phone) values ('bworkman2@opensource.org', 'Billie', 'Workman', '495-873-9060');
+insert into biz_admin_users (email, firstname, lastname, phone) values ('mpitchers3@pcworld.com', 'Marlyn', 'Pitchers', '267-910-2122');
+insert into biz_admin_users (email, firstname, lastname, phone) values ('wattoc4@woothemes.com', 'Whitby', 'Attoc', '538-878-1755');
+insert into biz_admin_users (email, firstname, lastname, phone) values ('rjiru5@irs.gov', 'Renie', 'Jiru', '855-441-5997');
+insert into biz_admin_users (email, firstname, lastname, phone) values ('fflagg6@github.io', 'Florry', 'Flagg', '830-153-3803');
+insert into biz_admin_users (email, firstname, lastname, phone) values ('mackroyd7@i2i.jp', 'Michell', 'Ackroyd', '954-933-1160');
+insert into biz_admin_users (email, firstname, lastname, phone) values ('gsouter8@wikispaces.com', 'Garnet', 'Souter', '999-214-1295');
+insert into biz_admin_users (email, firstname, lastname, phone) values ('cferraron9@ebay.com', 'Cully', 'Ferraron', '197-624-0753');
