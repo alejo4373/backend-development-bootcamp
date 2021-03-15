@@ -7,8 +7,8 @@ The web is the network of networks. There are Local Area Networks(LAN) that conn
 Now that we know computers are connected on a network through which they exchange messages and that they have addresses to identify each other. How does the web actually work?. So we talked about packets or messages being exchanded in the network of computers and there are many types different kind of packets 
 
 
+dotenv .env
 
-npm init
 
 
 const express = require('express')
