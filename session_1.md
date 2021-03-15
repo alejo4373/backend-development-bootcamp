@@ -7,9 +7,9 @@
 
 ## The Internet
 
-The internet was started in the late 1960's early 1970' as the result of a research project called ARPANET where the US department of defense was trying to build a communication system that could survive a nuclear attack. The researches thought of breaking messages up into blocks and sending them as as fast as possible in every possible direction thought the mesh network. Eventually the researches built a nation wide experimental packet network that worked.
+The internet was started in the late 1960's early 1970' as the result of a research project called ARPANET where the US department of defense was trying to build a communication system that could survive a nuclear attack and centralized networks were particularly vulnerable. Researches thought of breaking messages up into blocks and sending them as as fast as possible in every possible direction thought the mesh network. Eventually the researches built a nation wide experimental packet network that worked.
 
-![a network of interconnected computers](https://www.cs.utexas.edu/~mitra/csFall2018/cs329/lectures/fig1.gif)
+![types of networks](assets/types-of-networks.gif)
 
 ### IP Addresses
 
@@ -23,31 +23,28 @@ Each packet contains the IP address of the sender and the IP address of the dest
 
 #### Background History
 
-In the early 1980's Tim Berners-Lee a contractor for the European Organization of Nuclear Research (CERN) in Switzerland realized a problem: Researchers (mostly Physicist in this case) from around the world needed to share data but they lacked common machines and software that could present the data so he began implementing a "large hypertext database with typed links" and he thought of using the internet and its TCP/IP protocols to transmit the information of his database to other computers. To solve his colleges information sharing Tim invented:
+In the early 1980's Tim Berners-Lee a contractor for the European Organization of Nuclear Research (CERN) in Switzerland realized a problem: Researchers (mostly Physicist in this case) from around the world needed to share data but they lacked common machines and software that could present the data. He began implementing a "large hypertext database with typed links" and he thought of using the internet and its TCP/IP protocols to transmit the information of his database to other computers. To solve his colleagues information sharing problem Tim invented and built:
 
 * The Hypertext Markup Language (HTML), which enabled documents in the network to be linked to other related documents
 * The Hypertext transfer protocol (HTTP), which defined the structure of the messages to be exchanged in the network
-* The first HTTP server software to server HTML documents
+* The first HTTP server software to attend HTTP requests and serve HTML documents
 * The first Web Browser to access HTML documents from a server and present them to a reader.
-
 
 ### Server Computers
 
+![a network of interconnected computers](https://www.cs.utexas.edu/~mitra/csFall2018/cs329/lectures/fig1.gif)
+
+Server computers in a network are computers that offer resources or services to other computers. Resources can be images, videos, documents, HTML pages, etc. Services could include storage of information, streaming music, cropping pictures, editing word documents or performing some other kinds of computations.
+
+Client computers on a network are computers that request and access information and services from server computers.
+
+We will use a server to build a back-end or an API for a Business directory application like Yelp.com or yellowpages.com. This back-end will be comprised of a web server and a database server. The web server will provide an interface so that client applications or front-ends can access and modify business information and the Database server will be used for the storage and organization of such data.
+
 ![client-server diagram](./assets/client-server.png)
-
-Server computers in a network are computers that offer resources or services. Resources can be images, videos, documents, HTML pages, etc. Services could include storage of information, streaming music, cropping pictures, editing word documents or performing some other kinds of computations.
-
-Client computers on a network are computers that request information and services from server computers.
-
-We will be building a back-end or an API for a Business directory application like Yelp.com or yellowpages.com. This back-end will be comprised of a web server and a database server. The web server will provide an interface so that client applications or front-ends can access and modify business information and the Database server will be used for the storage and organization of such data.
 
 With code, we will configure a web server to handle incoming HTTP requests and responds with HTTP responses (collectively HTTP Messages). We will configure the database server to be able to store businesses and users information like name, addresses, pictures etc.
 
 Information will be returned as JSON documents which represent resources (businesses or users). These documents could then be rendered or displayed on a web page or any other Front-end for a user to see and use.
-
-Any full web application could be visualized as the digram bellow.
-
-![the stack](https://raw.githubusercontent.com/joinpursuit/Pursuit-Core-Web/master/node/postgres_and_seeding_databases/assets/fullstack_diagram.png)
 
 ## Back-end technologies
 
@@ -55,16 +52,18 @@ Any full web application could be visualized as the digram bellow.
 
 You can virtually use any programing language to build a Back-end or Web server. Some of the most used languages for back-end development include:
 
+![server side languages](assets/server-side-languages.png)
 * Python
 * JavaScript
 * Java
 * C#
 * PHP
 * Ruby
+* Go
 
 ### Web Servers
 
-Developers build frameworks, which are a collection of preconfigured components to build web servers that help other developers get started when building a web server. Some such frameworks per language include
+Since building server is common, developers built frameworks, which are a collection of preconfigured components and architectural patterns to build web servers that help other developers get started when building a web server. Some such frameworks per language include
 
 | **JavaScript (Node.js)** | **Python** | **Ruby**      | **PHP**     | **Java** |
 | ------------------------ | ---------- | ------------- | ----------- | -------- |
@@ -76,7 +75,7 @@ Developers build frameworks, which are a collection of preconfigured components 
 
 ### Database Servers
 
-To store, search and organize information there are also multiple solutions
+Database servers are its own different type of computer and there are multiple software solutions to store, search and organize information in such servers. Some database software include:
 
 | **Relational**       | **Non-Relational** |
 | -------------------- | ------------------ |
@@ -87,13 +86,15 @@ To store, search and organize information there are also multiple solutions
 
 <sup>*</sup> Not an exhaustive list
 
-We will not get into the details of Relational vs Non-Relational (a.k.a SQL vs NOSQL) databases but know that one of the difference reside in the way of retrieving information from the database and the way it is stored.
+We will not get into the details of Relational vs Non-Relational (a.k.a SQL vs NOSQL) databases but know that one of the key differences resides in the way they store and retrieving information and some are better suited for some scenarios.
 
 ### Our Tools
 
+**Database Server Software**: PostgreSQL
+
+**Web Server Software**: Express.js running in Node.js
+
 **Programing Language**: JavaScript
-**Database Server**: PostgreSQL
-**Server Framework**: Express.js running in Node.js
 
 For our web server, we will use the JavaScript programming language running in Node.js and a using the Express.js web framework. For our database server we will use PostgreSQL and SQL
 
@@ -119,7 +120,7 @@ To create an instance of a Postgres Database in elephant.com follow these steps
 1. Create an account or Sign in with GitHub or Google (my recommendation) by going to https://customer.elephantsql.com/login
 2. Once logged in hit the **Create new instance** button ![create new instance button](./assets/create-instance-btn.png)
 3. Fill out the form by giving your database a **name** like `buz_directory_db` and selecting **Plan**: Tiny Turtle (Free). You can leave the tags field empty
-4. **Select a region and data center**: Pick any region from the list preferably in the US. Then click the review btn ![review button](./assets/review-btn.png)
+4. **Select a region and data center**: Pick any region from the list preferably in the US. Then click the review button ![review button](./assets/review-btn.png)
 5. **Confirm new instance**: Review your database information and hit Create Instance ![create instance confirm btn](./assets/create-instance-confirm.png)
 
 #### Accessing the Database
@@ -156,7 +157,7 @@ Before we write any SQL code, this diagram represents what information we will s
 
 To create tables in Postgres we use the `CREATE TABLE` SQL statement followed by the name of the table and in parenthesis the name of the columns and what  type of data they will hold.
 
-To create the **businesses** table from the diagram copy or type the SQL code bellow into the Beekeeper editor and press the **Run** button. If everything goes well you should see the text _"Query Executed Successful. No Results"_ in the lower half of the editor 
+To create the **businesses** table from the diagram we saw before, copy or type the SQL code bellow into the Beekeeper editor and press the **Run** button. If everything goes well you should see the text _"Query Executed Successful. No Results"_ in the lower half of the editor 
 
 ```sql
 DROP TABLE IF EXISTS "businesses"; -- Because we will be running this a couple of times we want to delete the table if it already exists
@@ -194,17 +195,17 @@ CREATE TABLE "biz_admin_users" (
 );
 ```
 
-Lastly we want to express that a business should be associated with a user with by indicating that the `admin_user_id` column in `businesses` refers to the `biz_admin_users.id` column. This is called a foreign Key:
+Lastly we want to express the relationship between businesses and administrator users, that is a business should be associated with a bushiness administrator, we do this with by indicating that the `admin_user_id` column in `businesses` refers to the `id` column in table `biz_admin_users`. `admin_user_id` is then known as a Foreign Key:
 
 ```sql
 ALTER TABLE "businesses" ADD FOREIGN KEY ("admin_user_id") REFERENCES "biz_admin_users" ("id");
 ```
 
-Conceptually this connects the two tables and will let us get all the businesses a specific user administrates and retrieve the user information associated to a business if we need to among other things.
+Conceptually this connects the two tables and will let us get all the businesses a specific user administrates or retrieve the user information associated to an inactive business for example among other things.
 
 #### Postgres Data types
 
-Data in postgres must be organized in tables and we must specify what type of data each colum will hold. There are a lot of different data types supported for specif needs some are:
+Data in postgres must be organized in tables and we must specify what type of data each colum will hold. There are a lot of different data types supported for specific needs some are:
 
 | Type          | Description                                        |
 | ------------- | -------------------------------------------------- |
@@ -220,7 +221,7 @@ For more see https://www.postgresql.org/docs/current/datatype.html
 
 #### CRUD operations
 
-CRUD stands for create, read, update and delete which are the most common operations we do with data. To perform this operations we write SQL statements or also referred to as queries
+CRUD stands for create, read, update and delete which are the most common operations we do with data. To perform this operations we write SQL statements or also referred to as queries.
 
 ##### INSERT
 
@@ -231,7 +232,7 @@ INSERT INTO biz_admin_users(email, firstname, lastname, phone)
   VALUES('alejandrofranco@pursuit.org', 'Alejandro', 'Franco', '917-555-1234');
 ```
 
-💡 Note that the order of the list in parenthesis is important in both lines.
+💡 Note that in the first line you specify what columns you want to insert into and on the second line we pass the values we want there. The order of both lists in parenthesis is important.
 
 💡 We are not specifying the `id` column because it will automatically be created at insertion time and incremented (i.e its type is `SERIAL`).
 
@@ -264,7 +265,9 @@ VALUES(
   );
 ```
 
-**Exercise 1**: Insert the following business
+💡 For readability, is recommended to break long lines into multiple, sorter lines
+
+**Exercise**: Insert the following business
 
 | Column        | Value                                                                                   |
 | ------------- | --------------------------------------------------------------------------------------- |
@@ -323,13 +326,13 @@ To select the name and average rating of all businesses
 SELECT name, avg_rating FROM businesses;
 ```
 
-To get all columns of a business we can use the asterisk (*) character in our list of columns to select from
+To get all columns we can use the asterisk (*) character in our list of columns to select from
 
 ```sql
 SELECT * FROM businesses;
 ```
 
-We can also retrieve rows that match a specific condition by using the `WHERE` clause
+We can also retrieve rows that match a specific condition by using the `WHERE` clause filtering the result set.
 
 ```sql
 SELECT name, avg_rating FROM businesses
@@ -345,8 +348,7 @@ Other operators we can use in the `WHERE` clause are:
 | >=       | Greater than or equal |
 | <=       | Less than or equal    |
 
-[Learn more about SELECT](https://www.postgresqltutorial.com/postgresql-select/)
-[Learn more about WHERE](https://www.postgresqltutorial.com/postgresql-where/)
+Learn more about [SELECT](https://www.postgresqltutorial.com/postgresql-select/) & [WHERE](https://www.postgresqltutorial.com/postgresql-where/)
 
 ##### UPDATE
 
@@ -392,7 +394,7 @@ WHERE active = false;
 
 ##### JOIN
 
-Joins allow us to join two or more tables to retrieve information all at once. For example we can select the business with id and 1 along with the user that is associated to it by the foreign key `user_admin_id`
+Joins allow us to join two or more tables to retrieve information all at once. For example we can select the business with id 1 along with the user that is associated to it by the foreign key `user_admin_id`
 
 The structure is as follows:
 
@@ -402,7 +404,7 @@ FROM table_a
 INNER JOIN table_b ON table_a.column = table_b.colum
 ```
 
-If we wanted to find the first and last names plus the phone number of the users who businesses with an average rating less that 2
+If we wanted to find the first and last names plus the phone number of the users whose businesses have an average rating less that 2
 
 ```sql
 SELECT biz_admin_users.firstname, biz_admin_users.lastname, biz_admin_users.phone FROM biz_admin_users
