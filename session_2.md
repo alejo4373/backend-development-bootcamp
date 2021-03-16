@@ -2,11 +2,11 @@
 
 ### Objective
 
-Use Node.js to retrieve data from and insert data into the Database. Query a PostgresSQL using Node.js
+Use Node.js to retrieve data from and insert data into the Database. Query a PostgresSQL using Node.js.
 
 ## Introduction
 
-In the previous session we learned about databases and we used Beekeeper Studio to talk to our database, create table, add some data and modify it. Today we will learn how to CRUD data using JavaScript code in Node.js with pg-promise. 
+In the previous session we learned about databases and we used Beekeeper Studio to talk to our database, create tables, add some data, and modify it. Today we will learn how to CRUD data using JavaScript code in Node.js with pg-promise. 
 
 ![database clients](./assets/db-clients.png)
 
@@ -26,7 +26,7 @@ JavaScript runs natively in all web browsers, however to run JavaScript in the s
 
 ![Node.js logo](assets/node-js.png)
 
-To download Node.js visit [nodejs.org/en/download](https://nodejs.org/en/download/). Pick the installer for your computer, Windows, macOS or Linux.
+To download Node.js visit [nodejs.org/en/download](https://nodejs.org/en/download/). Pick the installer for your computer's OS: Windows, macOS or Linux.
 
 To install Node.js, execute the downloaded installer.
 
@@ -58,12 +58,12 @@ let age = 25 // Variable holding a value of type number
 let fruits = ["apple", "pear", "banana"] // Array(list) holding multiple values of type string
 ```
 
-* To declare a variable we use `const` or `let` followed by a name, to assign a value to a variable we use the equal sign (`=`) followed by a value.
-* `let` variables can be updated by typing `open = true` in a different line. This is called reassigning the variable.
+* To declare a variable we use the `const` or `let` keywords followed by a name, to assign a value to a variable we use the equal sign (`=`) followed by a value.
+* `let` variables can be updated by reassigning it a different value (e.g. `open = true`. Notice no `let` used when reassigning).
 
 #### Objects
 
-Objects are the most useful type of values in JavaScript and most programing languages have their equivalents. Objects are a collection of key-value properties that are efficient and easy to read. They are used to model real world objects in a computer. In our applications we can represent a user as the following collection of key-value pairs:
+Objects are the most useful type of values in JavaScript and most programing languages have their equivalents. Objects are a collection of key-value properties that are efficient and easy to read. They are used to model real world objects in a computer. In our applications we can represent a **user** as the following collection of key-value pairs:
 
 ```js
 let user = {
@@ -82,8 +82,8 @@ console.log(user.age)
 
 ##### Object Facts
 
-* Object property values can change. To bring back MJ you can do `user.retired = false`
-* You can add new properties that didn't exist `user.championships = 6`
+* Object properties can change. To bring back MJ you can do `user.retired = false`
+* You can add new properties by using an nonexisting key and assigning it a value e.g. `user.championships = 6`
 * To delete a property `delete user.age`
 * You can represent anything with objects, cars, books, people, planets, objects.
 * We will use objects to represent businesses and users in our application.
@@ -101,15 +101,13 @@ const sayHi = () => {
 sayHi() // Calling/invoking the function
 ```
 
-The code we will write in this bootcamp should be organized in a folder in your computer. Create a folder called `backend-bootcamp` somewhere you will remeber. Open VSCode and open your folder with it, you can do so in the top menu click `File → Open...`, then select the folder you just created and click open.
+The code we will write in this bootcamp should be organized in a folder in your computer. Create a folder called `backend-bootcamp` somewhere you will remeber. Open VSCode and open your folder with it, you can do so in the top menu by clicking `File → Open...`, then select the folder you just created and click open.
 
 In the folder you just opened, create a empty text file by clicking in the menu `File → New File`. Type the code of the function `sayHi` and save your file as `sayHi.js` by clicking  `File → Save`.
 
 Congratulations, you wrote a JavaScript program 🎉 !!.
 
-To execute this program we need to open up a terminal and ask Node.js to run it with the name of the program file. Open a terminal and type.
-
-To open a terminal in VSCode click in the top menu `Terminal → New Terminal`.
+To execute this program we need to open up a terminal and ask Node.js to run it with the name of the program file. To open a terminal in VSCode click in the top menu `Terminal → New Terminal`.
 
 To run you JavaScript program with node, in the terminal type:
 
@@ -119,7 +117,7 @@ node sayHi.js
 
 This program simply prints "Hello World" in your terminal.
 
-The anatomy of a JavaScript Function is this:
+##### Anatomy of a JavaScript Function
 
 ![js function anatomy](./assests/../assets/js-function.png)
 
@@ -166,13 +164,16 @@ Create a file called `Businesses.js`. In this file, to import and connect to our
 
 ```js
 const pgp = require('pg-promise')(); // Import pg-promise
-const DATABASE_URL= 'postgres://jpgnalgc:1bFUAaoVDEyxh7KhFJWWI3SAbuXw2YG4@queenie.db.elephantsql.com:5432/jpgnalgc' // ⚠️ Replace with YOUR database url
+// ⚠️ Replace with YOUR database url ⤵
+const DATABASE_URL= 'postgres://jpgnalgc:1bFUAaoVDEyxh7KhFJWWI3SAbuXw2YG4@queenie.db.elephantsql.com:5432/jpgnalgc' 
 const db = pgp(DATABASE_URL) // Connect to database
 ```
 
 #### Retrieving businesses from the Database
 
-To execute SQL code/queries using `pg-promise` to interact with the database we will write a function and call one of pg-promise's functions with our SQL query.
+To execute SQL code/queries using `pg-promise` for the database we will write a function and call one of pg-promise's functions with our SQL query.
+
+For example:
 
 ```js
 // Retrieve all businesses
@@ -201,7 +202,7 @@ To execute this JavaScript program and verify it works we run it with node and t
 node Businesses.js
 ```
 
-In your terminal you should then see a list of JavaScript objects that represent businesses.
+In your terminal you should then see a list of JavaScript objects that represent businesses with the information that is stored in our database.
 
 <details>
   <summary> Something like this</summary>
@@ -326,6 +327,7 @@ In your terminal you should then see a list of JavaScript objects that represent
 * `db` in an object that represents the database we are connected to
 * `db.any()` is a function we get from `pg-promise`
 * We have to use the keyword `await` in front of `db.any`, because we want to wait for the result to come back. `db.any` is asynchronous code, which means we don't know how long it's going to take and whether it will succeed of fail (we don't know how far away is our database and the internet might be down or slow). To learn more about asynchronous code visit [Asynchronous Programming - Eloquent JavaScript](https://eloquentjavascript.net/11_async.html)
+* We used `try { ...} catch(err) {...}` to account for the fact that the operation might fail. If it fails we, the developers want to be aware of it by throwing the error. We don't know if the database will be available or if we have made a mistake in our SQL code, so we better `try` it and if there's an error we better `catch` it.
 
 #### Retrieving a businesses by its id
 
@@ -333,7 +335,7 @@ In your terminal you should then see a list of JavaScript objects that represent
 const getById = async (id) => {
   try {         
     let business = await db.one('SELECT * from businesses WHERE id = $1', [id])
-    return business            // $1 will be the fist element of this list⤴  
+    return business          // $1 refers to the fist element of this list⤴  
   } catch (err) {
     throw (err)
   }
@@ -353,7 +355,7 @@ const main = async () => {
 }
 ```
 
-When we run this again, no in our terminal we should see printed a single business. The business whose id matches the id we passed to `getById`
+When we run our program again, now in our terminal we should see printed a single business. The business whose id matches the id we passed to `getById` in this case `2`.
 
 **Exercises**:
 
@@ -390,7 +392,8 @@ const add = async (newBusiness) => {
 
 * To add a new business we need an `INSERT` query
 * To embed the values we want to add to the database we specify various `$n` were `n` is the value's position in the list
-* We are using the `RETURNING *` statements because `INSERT` queries don't return anything by default. In this case we want to see what was just inserted so we want all its columns (`*`) returned.
+* We are using the `RETURNING *` statement because `INSERT` queries don't return anything by default. In this case we want to see what was just inserted so we want all its columns (`*`) returned.
+* We are using `db.one` here instead of `db.any` this is because `.any` expects none, one or more rows returned. `.one` expects exactly one row returned and it fails if no row was returned or if more than one row is returned.
 
 To try this our `main` function should look like this:
 
@@ -416,7 +419,7 @@ main()
 ```
 
 <details>
-<summary>In the terminal you should see the business you just inserted, with its new id</summary>
+<summary>In the terminal you should see the business you just inserted, with its new id, in my case 23</summary>
 
 ```js
 {
@@ -436,7 +439,7 @@ main()
 
 #### Updating a Business
 
-The only thing that changes form the `add()` function is the SQL query, in this case an `UPDATE`
+The only thing that changes form the `add()` function is the SQL query, in this case an `UPDATE` query is used. Look at it carefully and compare.
 
 ```js
 const update = async (id, updates) => {
@@ -490,10 +493,139 @@ const main = async () => {
 main()
 ```
 
-* In this case we are updating the entire business, if we wanted to update fewer columns we could write additional code to build the SQL query string dynamically and update only a subset of columns. You can [see here how that is done](https://github.com/alejo4373/Production-Server/blob/1db08baf6ac78dce5e0638576bb9e07a12a69b92/db/todos.js#L151)
+Verify that the update happened by using `getById` or Beekeeper studio.
+
+**Notes**:
+
+* In this case we are updating the entire business, if we wanted to update fewer columns we could write additional code to build the SQL query string dynamically or we could have separate functions like `updateName`, `updatePhone`, etc, to update only a subset of columns. A dynamic query is a bit more complicated but you can what that could look like [here](https://github.com/alejo4373/Production-Server/blob/1db08baf6ac78dce5e0638576bb9e07a12a69b92/db/todos.js#L151)
 
 #### Deleting a Business
 
+You got how this goes by now
+
+```js
+const remove = async (id) => {
+  try {
+    let SQL = 'DELETE FROM businesses WHERE id = $1 RETURNING *'
+    let deletedBusiness = await db.one(SQL, [id])
+    return deletedBusiness
+  } catch (err) {
+    throw (err)
+  }
+}
+
+
+const main = async () => {
+  let result = await remove(2) // Delete business with id = 2
+  console.log(result)
+  process.exit(0)
+}
+
+main()
+```
+
+<details> 
+<summary> By the end your Businness.js file should have this content </summary> 
+
+```js
+const pgp = require('pg-promise')(); // Import pg-promise
+
+// ⚠️ Replace with YOUR database url ⤵
+const DATABASE_URL = 'postgres://jpgnalgc:1bFUAaoVDEyxh7KhFJWWI3SAbuXw2YG4@queenie.db.elephantsql.com:5432/jpgnalgc'
+
+const db = pgp(DATABASE_URL)
+
+const getAll = async () => {
+  try {
+    let businesses = await db.any('SELECT * from businesses')
+    return businesses
+  } catch (err) {
+    throw (err)
+  }
+}
+
+const getById = async (id) => {
+  try {
+    let business = await db.one('SELECT * from businesses WHERE id = $1', [id])
+    return business            // $1 will be the fist element of this list⤴  
+  } catch (err) {
+    throw (err)
+  }
+}
+
+const add = async (newBusiness) => {
+  try {
+    let SQL = `
+      INSERT INTO businesses (name, phone, address, description, picture_url, active, open_date, admin_user_id, avg_rating)
+        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) 
+        RETURNING *
+      `
+    let business = await db.one(SQL, [
+      newBusiness.name,
+      newBusiness.phone,
+      newBusiness.address,
+      newBusiness.description,
+      newBusiness.picture_url,
+      newBusiness.active,
+      newBusiness.open_date,
+      newBusiness.admin_user_id,
+      newBusiness.avg_rating,
+    ])
+    return business
+  } catch (err) {
+    throw (err)
+  }
+}
+
+const update = async (id, updates) => {
+  try {
+    let SQL = `
+      UPDATE businesses 
+      SET name = $1, phone = $2, address = $3, description = $4,
+        picture_url = $5, active = $6, open_date = $7, admin_user_id = $8, avg_rating = $9
+      WHERE id = $10
+      RETURNING *
+      `
+    let business = await db.one(SQL, [
+      updates.name,
+      updates.phone,
+      updates.address,
+      updates.description,
+      updates.picture_url,
+      updates.active,
+      updates.open_date,
+      updates.admin_user_id,
+      updates.avg_rating,
+      id
+    ])
+    return business
+  } catch (err) {
+    throw (err)
+  }
+}
+const remove = async (id) => {
+  try {
+    let SQL = 'DELETE FROM businesses WHERE id = $1 RETURNING *'
+    let deletedBusiness = await db.one(SQL, [id])
+    return deletedBusiness
+  } catch (err) {
+    throw (err)
+  }
+}
+
+// We will eventually remove main because it's here only for testing purposes
+//
+// const main = async () => {
+//   let result = await remove(3)
+//   console.log(result)
+//   process.exit(0)
+// }
+
+// main()
+
+```
+</details>
+
 ### Exercise
 
-pg-promise & methods
+* Implement the same functions we did here for users in a file called `Users.js`.
