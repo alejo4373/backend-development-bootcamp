@@ -638,3 +638,7 @@ const remove = async (id) => {
 ### Exercise
 
 * Implement the same functions we did here for business admin users in a file called `Users.js`.
+
+### Next up
+
+In [Session 3](./session_3.md) we will build a web server with Node.js that uses the functions we wrote here to serve businesses over HTTP to an application.
