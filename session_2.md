@@ -2,7 +2,7 @@
 
 ### Objective
 
-Use Node.js to retrieve data from and insert data into the Database. Query a PostgresSQL using Node.js.
+Use Node.js to retrieve data from and insert data into the Database. Query a PostgresSQL Database using Node.js.
 
 ## Introduction
 
@@ -36,22 +36,22 @@ To check if node was installed correctly, open up a terminal window and type:
 node --version
 ```
 
-This should print your node version if installed or an error if Node is not present. In my case the output is:
+This should print your node version if it's installed, an error otherwise. In my case the output is:
 
 ```sh
 v12.18.2
 ```
 
-### JavaScript Crash course
+## JavaScript Crash course
 
 If you have never written JavaScript code, you are about to.
 
-#### Variables and Values
+### Variables and Values
 
 Variables are used to store values.
 
 ```js
-const PI = 3.14 // constants will never change, don't try
+const PI = 3.14 // constants will never change, (you can try, if you want)
 let open = false // Variable holding a value of type boolean
 let message = "Hi there!" // Variable holding a value of type string
 let age = 25 // Variable holding a value of type number
@@ -61,7 +61,7 @@ let fruits = ["apple", "pear", "banana"] // Array(list) holding multiple values 
 * To declare a variable we use the `const` or `let` keywords followed by a name, to assign a value to a variable we use the equal sign (`=`) followed by a value.
 * `let` variables can be updated by reassigning it a different value (e.g. `open = true`. Notice no `let` used when reassigning).
 
-#### Objects
+### Objects
 
 Objects are the most useful type of values in JavaScript and most programing languages have their equivalents. Objects are a collection of key-value properties that are efficient and easy to read. They are used to model real world objects in a computer. In our applications we can represent a **user** as the following collection of key-value pairs:
 
@@ -80,7 +80,7 @@ To access a specific property within an object we use the name of the object fol
 console.log(user.age)
 ```
 
-##### Object Facts
+#### Object Facts
 
 * Object properties can change. To bring back MJ you can do `user.retired = false`
 * You can add new properties by using an nonexisting key and assigning it a value e.g. `user.championships = 6`
@@ -88,14 +88,14 @@ console.log(user.age)
 * You can represent anything with objects, cars, books, people, planets, objects.
 * We will use objects to represent businesses and users in our application.
 
-#### Functions
+### Functions
 
 Function are reusable and encapsulated pieces of code that we can call at will. We will use functions to retrieve and add information to our Database. We need a basic grasp of functions.
 
 ```js
 // Defining a function
 const sayHi = () => {
-  console.log("Hello World")
+  console.log("Hello World!")
 }
 
 sayHi() // Calling/invoking the function
@@ -105,9 +105,7 @@ The code we will write in this bootcamp should be organized in a folder in your 
 
 In the folder you just opened, create a empty text file by clicking in the menu `File → New File`. Type the code of the function `sayHi` and save your file as `sayHi.js` by clicking  `File → Save`.
 
-Congratulations, you wrote a JavaScript program 🎉 !!.
-
-To execute this program we need to open up a terminal and ask Node.js to run it with the name of the program file. To open a terminal in VSCode click in the top menu `Terminal → New Terminal`.
+To run this program we need to open up a terminal and ask Node.js to execute by giving it the name of the program file. To open a terminal in VSCode click in the top menu `Terminal → New Terminal`.
 
 To run you JavaScript program with node, in the terminal type:
 
@@ -115,9 +113,15 @@ To run you JavaScript program with node, in the terminal type:
 node sayHi.js
 ```
 
-This program simply prints "Hello World" in your terminal.
+You should see the following output in your terminal
 
-##### Anatomy of a JavaScript Function
+```sh
+Hello World!
+```
+
+Congratulations, you wrote a JavaScript program 🎉 !!.
+
+#### Anatomy of a JavaScript Function
 
 ![js function anatomy](./assests/../assets/js-function.png)
 
@@ -136,11 +140,13 @@ You know you are dealing with a function when you see a set of parenthesis and a
 * Functions exist to reuse code
 * Functions will retrieve information from the database and print it for us.
 
-### NPM
+### NPM - The Node Package Manager
 
-To write our back-end we will be using some code other developers wrote to help us. This code will come in the form of external packages or modules and we will use NPM to download and install them. NPM stands for the Node Package Manager. Packages are code other developers have written to solve common problems and they make it available for others to use. In fact, the backend we will be building will be a an npm package that we could publish to the npm package registry if we wanted to so that other people could use it. There are many advantages for using npm, some are are keeping our code organized and reusing code so we don't have to reinvent the wheel.
+To write our back-end we will be using code other developers wrote to solve common problems. This code will come in the form of open source external packages or **modules** and we will use NPM to download and install them. The backend we will be building will be an npm package itself. We could make our package available for other developers to use if we publish it to the the npm public registry.
 
-To start a new, empty NPM package, in your VSCode terminal run the `npm` command as follows. `npm` comes with Node.js
+There are many advantages for using npm, some are are keeping our code organized and reusing code so we don't have to reinvent the wheel. 
+
+To start a new, empty NPM package, in your VSCode terminal run the `npm` command as follows. `npm` was installed with Node.js.
 
 ```sh
 npm init -y
@@ -150,7 +156,7 @@ Verify that in your folder now there is a file called `package.json`. This file 
 
 ### pg-promise
 
-The first packages we will install and use is `pg-promise`. [`pg-promise`](https://www.npmjs.com/package/pg-promise) is a PostgreSQL interface for Node.js, which means it's a package that offers a bunch of functions for us to talk to our PostgreSQL database using Node.js.
+The first packages we will install and use is `pg-promise`. [`pg-promise`](https://www.npmjs.com/package/pg-promise) is a PostgreSQL interface for Node.js, which means it's a package that offers code and functions for us to talk to our PostgreSQL database using Node.js.
 
 To install pg-promise, in the VSCode terminal run
 
@@ -158,9 +164,9 @@ To install pg-promise, in the VSCode terminal run
 npm install pg-promise
 ```
 
-once pg-promise is installed we can import (`require`) it into one of our files so we can use its functions to connect to PostgreSQL.
+Once pg-promise is installed we can import (`require`) it into one of our files so we can use its functions to connect to PostgreSQL.
 
-Create a file called `Businesses.js`. In this file, to import and connect to our Database write the following code:
+Create a file called `Businesses.js`. In this file, to import `pg-promise` and connect to our Database write the following code:
 
 ```js
 const pgp = require('pg-promise')(); // Import pg-promise
@@ -173,7 +179,7 @@ const db = pgp(DATABASE_URL) // Connect to database
 
 To execute SQL code/queries using `pg-promise` for the database we will write a function and call one of pg-promise's functions with our SQL query.
 
-For example:
+For example, in the same `Businesses.js` file add:
 
 ```js
 // Retrieve all businesses
@@ -186,17 +192,17 @@ const getAll = async () => {
   }
 }
 
-// Main driver code
+// Main driver code for testing for testing purposes
 const main = async () => {
   let result = await getAll() // Calling getAll
-  console.log(result) // Printing the result to verify we got one
-  process.exit(0) // Exit terminating the program
+  console.log(result)         // Printing the result to verify we got one
+  process.exit(0)             // Exit terminating the program
 }
 
 main() // Calling the main function which calls our function
 ```
 
-To execute this JavaScript program and verify it works we run it with node and the file name.
+To execute this JavaScript program and verify it works, we run it with node as follows:
 
 ```js
 node Businesses.js
@@ -329,7 +335,7 @@ In your terminal you should then see a list of JavaScript objects that represent
 * We have to use the keyword `await` in front of `db.any`, because we want to wait for the result to come back. `db.any` is asynchronous code, which means we don't know how long it's going to take and whether it will succeed of fail (we don't know how far away is our database and the internet might be down or slow). To learn more about asynchronous code visit [Asynchronous Programming - Eloquent JavaScript](https://eloquentjavascript.net/11_async.html)
 * We used `try { ...} catch(err) {...}` to account for the fact that the operation might fail. If it fails we, the developers want to be aware of it by throwing the error. We don't know if the database will be available or if we have made a mistake in our SQL code, so we better `try` it and if there's an error we better `catch` it.
 
-#### Retrieving a businesses by its id
+#### Retrieving a businesses by id
 
 ```js
 const getById = async (id) => {
@@ -355,7 +361,7 @@ const main = async () => {
 }
 ```
 
-When we run our program again, now in our terminal we should see printed a single business. The business whose id matches the id we passed to `getById` in this case `2`.
+When we run our program again, now in our terminal we should see printed a single business. The business whose id matches the id we passed to `getById`, in this case `2`.
 
 **Exercises**:
 
@@ -363,6 +369,8 @@ When we run our program again, now in our terminal we should see printed a singl
 * Try to retrieve a business by an id that doesn't exist in the database, say `100`
 
 #### Adding a new businesses
+
+Too add a new business we will use an `INSERT` SQL query as follows.
 
 ```js
 const add = async (newBusiness) => {
@@ -390,7 +398,7 @@ const add = async (newBusiness) => {
 }
 ```
 
-* To add a new business we need an `INSERT` query
+* Note that because this is a longer query I stored it into a variable called `SQL` and enclosed it in the backtick (`` ` ``) characters instead of quotations (`'`) mark. The backtick characters allows having a multi-line string, which is helpful for readability.
 * To embed the values we want to add to the database we specify various `$n` were `n` is the value's position in the list
 * We are using the `RETURNING *` statement because `INSERT` queries don't return anything by default. In this case we want to see what was just inserted so we want all its columns (`*`) returned.
 * We are using `db.one` here instead of `db.any` this is because `.any` expects none, one or more rows returned. `.one` expects exactly one row returned and it fails if no row was returned or if more than one row is returned.
@@ -399,6 +407,7 @@ To try this our `main` function should look like this:
 
 ```js
 const main = async () => {
+  // The new business we want to add
   let business = {
     name: "AMC Empire 25",
     phone: "212-398-2597",
@@ -497,11 +506,11 @@ Verify that the update happened by using `getById` or Beekeeper studio.
 
 **Notes**:
 
-* In this case we are updating the entire business, if we wanted to update fewer columns we could write additional code to build the SQL query string dynamically or we could have separate functions like `updateName`, `updatePhone`, etc, to update only a subset of columns. A dynamic query is a bit more complicated but you can what that could look like [here](https://github.com/alejo4373/Production-Server/blob/1db08baf6ac78dce5e0638576bb9e07a12a69b92/db/todos.js#L151)
+* In this case we are updating the entire business, if we wanted to update fewer columns we could write additional code to build the SQL query string dynamically or we could have separate functions like `updateName`, `updatePhone`, etc, to update only a subset of columns. A dynamic query is a bit more complicated but you can see what that could look like [here](https://github.com/alejo4373/Production-Server/blob/1db08baf6ac78dce5e0638576bb9e07a12a69b92/db/todos.js#L151)
 
 #### Deleting a Business
 
-You got how this goes by now
+You got how this goes by now.
 
 ```js
 const remove = async (id) => {
@@ -525,7 +534,7 @@ main()
 ```
 
 <details> 
-<summary> By the end your Businness.js file should have this content </summary> 
+<summary> By the end your Businness.js file should have the same content as mine here </summary> 
 
 ```js
 const pgp = require('pg-promise')(); // Import pg-promise
@@ -628,4 +637,4 @@ const remove = async (id) => {
 
 ### Exercise
 
-* Implement the same functions we did here for users in a file called `Users.js`.
+* Implement the same functions we did here for business admin users in a file called `Users.js`.
