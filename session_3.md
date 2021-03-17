@@ -23,13 +23,14 @@ APIs exist, so that two or more applications can communicate with each other
 ## Example of APIs
 
 * [Deck of Cards API](https://deckofcardsapi.com/). An API to simulate a deck of cards. You can create decks, shuffle the deck, draw cards and add cards to piles.
+* [Todos API](https://github.com/alejo4373/Todos-API). A simple API for a To-dos application. Let's you create, update, delete and retrieve todos.
 * [Yelp API](https://www.yelp.com/developers/documentation/v3). Find businesses by keyword, location
 * [YouTube API](https://developers.google.com/youtube/v3). Let's you search for videos, upload videos, manage playlists and subscriptions and more
 * [GitHub API](https://docs.github.com/en/rest). Create repos, open/close pull requests or issues. Almost everything you can do on Github.com you can do by calling their API.
 * [Dropbox API](https://www.dropbox.com/developers/documentation/http/documentation). Let's work with files in Dropbox, upload, download, search and modify files.
 * [Commerce.js API](https://commercejs.com/docs/api/?shell#introduction). Back-end for an eCommerce site, so you don't have to build your own. Create, list, update and delete online store items.
 
-## Consuming APIs
+All APIs expect the Deck of Cards API and the Todos API require some ways of authentication via tokens.
 
 Before we can interact with APIs we need to understand their ways of communication. The previous API examples and the API we will build will communicate via HTTP messages (requests & responses) which are define by the HTTP protocol.
 
@@ -65,12 +66,12 @@ HTTP defines various methods to be used in requests messages for the server to p
 
 ##### HTTP Status Codes
 
-HTTP response status codes indicate whether a specific HTTP request has been successfully completed. Status codes are divide into 5 categories, below them I listed some of the most common per category:
+HTTP response status codes indicate whether a specific HTTP request has been successfully completed. Status codes are divided into 5 categories, below them I listed some of the most common per category:
 
 * 1xx informational response – the request was received, continuing process
 * 2xx successful – the request was successfully received, understood, and accepted
   * `200 OK` The request has succeeded
-  * `201 Created` The requests has succedded and a new resource has been created as a result
+  * `201 Created` The requests has succeeded and a new resource has been created as a result
 * 3xx redirection – further action needs to be taken in order to complete the request
   * `301 Moved Permanently` The URL of the requested resource has been changed permanently. The new URL is given in the response.
 * 4xx client error – the request contains bad syntax or cannot be fulfilled
@@ -83,6 +84,38 @@ HTTP response status codes indicate whether a specific HTTP request has been suc
 To [learn more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
 
 ## Postman
+
+To test APIs, and to send and inspect HTTP requests and responses we will use the Postman API client
+
+![postman screenshot](https://www.postman.com/assets/response-screenshot.svg)
+
+To download Postman visit https://www.postman.com/downloads/
+
+To install Postman simply execute the downloaded installers
+
+## Consuming APIs
+
+To consume an API a client sends HTTP requests to specific endpoint/urls of the API. Let's try the Deck of Cards API
+
+Open up Postman and create a new request by opening a new tab
+
+![create a new request in postman](./assets/session_3/postman-new-request.png)
+
+Then paste the url for the Deck of Cards API `https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1` in the address bar and hit **Send**
+
+![postman address bar](./assets/session_3/postman-address-bar.png)
+
+The response should appear in the bottom half of the Postman window with the result of our request
+
+![postman response screenshot](./assets/session_3/posman-response-body.png)
+
+The Deck of cards doesn't accept POST requests. To try a post request lets use the Todos API. `http://www.todos-api.com/api/users/signup`. 
+
+Change the method to be POST, select Body, then select `x-www-form-urlencoded` and add a `username` field/key with a value, then hit Send. Take a look at the screenshot below.
+
+![postman post request](./assets/session_3/postman-post-request.png)
+
+**Exercise**. Look at the Todos API documentation to learn what resources and endpoints exist, then and try a few other requests. Remember to try the different HTTP methods and be attentive of what status code the API returns.
 
 ## Express.js
 
