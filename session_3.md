@@ -120,35 +120,248 @@ Change the method to be POST, select Body, then select `x-www-form-urlencoded` a
 ## Building our API with Express.js
 
 1. Open the folder `backend-bootcamp` we created in the previous session with VSCode.
-2. Insider the folder `backend-bootcamp` create a new folder and call it `db`, then move the files we created in the previous session (`Businness.js` & `Users.js`) to it. This directory will be reserved to contain the code that interacts with our database using `pg-promise`.
+2. Insider the folder `backend-bootcamp` create a new folder and call it `db`, then move the files we created in the previous session (`Business.js` & `Users.js`) to it. This directory will be reserved to contain the code that interacts with our database using `pg-promise`.
 3. Create a new file and call it `server.js`. This file will contain our JavaScript code for our Express.js server
 4. Install `express` by opening the VSCode terminal and typing `npm install express`
 5. Open `server.js` with VSCode and add the JS code below
 
 ```js
-const express = require('express')      // Import express
-const server = express()                // Create an Express server
-const PORT = process.env.PORT || '3000' // Read the port from the environment or use port 3000
+const express = require('express')        // Import express
+const server = express()                  // Create an Express server
+const PORT = process.env.PORT || '3000'   // Read the port from the environment or use port 3000
 
-server.get('/', (req, res, next) => {  // Listen for a `get` request at the root endpoint
-  res.send('Hello World')              // Send the text "Hello World" in the response
+app.use(express.json())                   // Parse JSON request payloads
+
+server.get('/', (request, response) => {  // Listen for a `GET` request at the root endpoint
+  response.send('Hello World')            // Send the text "Hello World" in the response
 })
 
-server.listen(PORT, () => {            // Listen for requests coming through port PORT
-  console.log(`server listening on http://localhost:${PORT}`)
+server.listen(PORT, () => {               // Listen for requests coming through port PORT
+  console.log(`Server listening on http://localhost:${PORT}`)
 })
 ```
 
-### Route setup 
+Visit `http://localhost:3000/` in your web browser. The web browser makes a `GET` request to the root endpoint of our server (`/`) and we should see `Hello World` in the page.
 
-### `GET /businesses` Route
+### Express routes format
+
+An Express.js route setup follows the following format.
+
+```js
+server.[METHOD]('[ENPOINT]', [HANDLER-FUNCTION])
+```
+
+Where:
+
+* `[METHOD]` is a lowercased HTTP request method. `get`, `post`, `put`, `delete`, etc.
+* `[ENDPOINT]` is a string specifying what endpoint our route to listen at. Examples are `/`, `/users/:id`, etc.
+* `[HANDLER-FUNCTION]` is the function that handles and can access the `request` and produces a `response`. In our case the handler function will invoke one of our database functions and send a response with the data from our database.
+
+### Routes or Endpoints to build
+
+| Method   | Endpoint          | Description                             |
+| -------- | ----------------- | --------------------------------------- |
+| `GET`    | `/businesses/`    | Retrieve all business                   |
+| `POST`   | `/businesses/`    | Add a new business                      |
+| `GET`    | `/businesses/:id` | Retrieve a single business by id        |
+| `PUT`    | `/businesses/:id` | Completely update or replace a business |
+| `DELETE` | `/businesses/:id` | Delete a business                       |
+| `PATCH`  | `/businesses/:id` | Partially update a business             |
+
+Where `:id` will be a specific business id
+
+### Database Query Functions
+
+Before we go ahead and implement our routes we need to organize the database functions we wrote in the past session. These function will back the routes up.
+
+1. Create a folder in your `backend-bootcamp` folder and call it `db`
+2. Move the `Business.js` and `Users.js` files you created in the previous session into the `db` folder.
+3. Remove the `main()` functions from the files, we won't need them anymore.
+4. At the bottom of both files we need to export each one of our functions so that we can use them in other files. To export functions from a file we use `module.exports`. For example the following exports and objecct with the functions from `Businesses.js`.
+
+```js
+// ... bottom of Businesses.js
+module.exports = {
+  getAll: getAll,
+  getById: getById,
+  add: add,
+  update: update,
+  remove: remove
+}
+```
+
+### Route setup
+
+Once we have our database query functions exported as an object we will be able to use them anywhere we import this object.
+
+To use our database functions in our server include the line of code bellow at the top of `server.js`.
+
+```js
+const Businesses = require ('./db/Businesses.js') 
+```
+
+### `GET /businesses` route
+
+The route to retrieve all businesses looks like This
+
+```js
+server.get('/businesses/', async (request, response) => {
+  try {
+    let businesses = await Businesses.getAll()  // Call to database function
+    let payload = {                
+      data: businesses,
+      err: false,
+      msg: 'Successfully retrieved all businesses'
+    }
+    response.status(200).json(payload) // Send the response with status 200 and the payload in JSON format
+  } catch (err) {
+    response.status(500).json({        // If there's an error send status 500 and a JSON payload indicating so
+      err: true,
+      msg: 'Failed to retrieve all businesses'
+    })
+  }
+})
+```
+
 ### `GET /businesses/:id` Route
+
+To retrieve a single business by id, we implement the following route
+
+```js
+server.get('/businesses/:id', async (request, response) => {
+  try {
+    let business = await Businesses.getById(request.params.id)
+    response.status(200).json({
+      data: business,
+      err: false,
+      msg: 'Successfully retrieved business by id'
+    })
+  } catch (err) {
+    response.status(404).json({
+      err: true,
+      msg: 'Business not found'
+    })
+  }
+})
+```
+
+* `:id` is a variable route parameter and will be accessible through the `request` object by keying into `request.params.id`. To learn more about in the official [Express Documentation - route parameters](https://expressjs.com/en/guide/routing.html#route-parameters)
+
 ### `POST /businesses` Route
+
+To add a new business we attend `POST` requests at `/businesses`
+
+```js
+server.post('/businesses', async (request, response) => {
+  try {
+    let newBusiness = request.body // Request JSON payload parsed by app.use(express.json())
+    let business = await Businesses.add(newBusiness)
+    response.status(201).json({   // Return status `201 Created` upon success
+      data: business,
+      err: false,
+      msg: 'Successfully added a business'
+    })
+  } catch (err) {
+    console.log(err)
+    response.status(500).json({
+      err: true,
+      msg: 'Failed adding a business'
+    })
+  }
+})
+```
+
+To try this route out we will use Postman to send a POST request as explained above in [**Consuming APIs**](./#consuming-apis)
+
+Send JSON payload like the following:
+
+```json
+{
+    "name": "AMC Empire 25",
+    "phone": "212-398-2597",
+    "address": "234 W 42nd St, New York, NY 10036",
+    "description": "This cinema complex just off Times Square shows mainstream, independent and IMAX films on 25 screens.",
+    "picture_url": "https://amc-theatres-res.cloudinary.com/amc-cdn/production/2/theatres/552/05520_mobile.jpg",
+    "active": true,
+    "open_date": "April 21, 2000",
+    "admin_user_id": "1",
+    "avg_rating": 4.1
+}
+```
+
 ### `PUT /businesses/:id` Route
+
+To completely update or replace a business we attend `PUT` requests at `/businesses/:id`
+
+```js
+server.put('/businesses/:id', async (request, response) => {
+  try {
+    let businessId = request.params.id  // Read the id from the params
+    let updates = request.body          // Read the updates from the request payload
+    let updatedBusiness = await Businesses.update(businessId, updates)  // 
+    response.status(200).json({
+      data: updatedBusiness,
+      err: false,
+      msg: 'Successfully updated business'
+    })
+  } catch (err) {
+    console.log(err)
+    response.status(500).json({
+      err: true,
+      msg: 'Failed updating business'
+    })
+  }
+})
+```
+
+⚠ The HTTP protocol states that `PUT` should create the resource if it doesn't exist, in our case this route doesn't do this because we would need to implement a different ID generation approach instead of leaving the database pick the IDs for businesses for us with `SERIAL`. Learn more in the [Mozilla Developer Network Documentation about PUT](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PUT)
+
+To try this route send a `PUT` request with a JSON payload using Postman.
+️
+
 ### `DELETE /businesses/:id` Route
 
+To delete a business we attend `DELETE` requests at `/businesses/:id` and call our database function `Businesses.remove()` in our route handler
 
-dotenv .env
+```js
+server.delete('/business/:id', async (request, response, next) => {
+  try {
+    let businessId = request.params.id
+    await Businesses.remove(businessId)
+    response.status(200).json({
+      data: null,
+      err: false,
+      msg: 'Successfully deleted a businesses'
+    })
+  } catch (err) {
+    response.status(500).json({
+      err: true,
+      msg: 'Failed to delete business'
+    })
+  }
+})
+```
+
+Try this out in Postman
+
+## Closing notes
+
+You don't want to have your database URL hardcoded into your database functions code because if you using GitHub or other public source control, it could get exposed giving anyone access to it. Instead you should have the database url in the environment and read it from there. To achieve this
+
+1. Create a file called `.env` in your project's root folder
+2. Add your database url to it like so:
+
+    ```sh
+    DATABASE_URL=postgres://zuaanwyt:zw0RbnnKE_aFsWgINGWwDDV35Yawdzls@queenie.db.elephantsql.com:5432/zuaanwyt
+    ```
+
+3. Make sure the `.env` file is ignored in your source control system. For git that would be adding it to your `.gitignore` file
+4. To load the content of the `.env` file to the environment you can use the npm package [`dotenv`](https://www.npmjs.com/package/dotenv)
+5. At the top of `server.js` include the following like 
+
+    ```js
+    require('dotenv').config()
+    ```
 
 
 ### Resources
