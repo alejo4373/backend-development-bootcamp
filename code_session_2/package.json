@@ -1,0 +1,14 @@
+{
+  "name": "alejandros-package",
+  "version": "1.0.0",
+  "description": "This is a backend app",
+  "main": "user.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "@alejo4373",
+  "license": "MIT",
+  "dependencies": {
+    "pg-promise": "^10.9.5"
+  }
+}

@@ -117,23 +117,39 @@ Change the method to be POST, select Body, then select `x-www-form-urlencoded` a
 
 **Exercise**. Look at the Todos API documentation to learn what resources and endpoints exist, then and try a few other requests. Remember to try the different HTTP methods and be attentive of what status code the API returns.
 
-## Express.js
+## Building our API with Express.js
+
+1. Open the folder `backend-bootcamp` we created in the previous session with VSCode.
+2. Insider the folder `backend-bootcamp` create a new folder and call it `db`, then move the files we created in the previous session (`Businness.js` & `Users.js`) to it. This directory will be reserved to contain the code that interacts with our database using `pg-promise`.
+3. Create a new file and call it `server.js`. This file will contain our JavaScript code for our Express.js server
+4. Install `express` by opening the VSCode terminal and typing `npm install express`
+5. Open `server.js` with VSCode and add the JS code below
+
+```js
+const express = require('express')      // Import express
+const server = express()                // Create an Express server
+const PORT = process.env.PORT || '3000' // Read the port from the environment or use port 3000
+
+server.get('/', (req, res, next) => {  // Listen for a `get` request at the root endpoint
+  res.send('Hello World')              // Send the text "Hello World" in the response
+})
+
+server.listen(PORT, () => {            // Listen for requests coming through port PORT
+  console.log(`server listening on http://localhost:${PORT}`)
+})
+```
+
+### Route setup 
+
+### `GET /businesses` Route
+### `GET /businesses/:id` Route
+### `POST /businesses` Route
+### `PUT /businesses/:id` Route
+### `DELETE /businesses/:id` Route
+
 
 dotenv .env
 
-
-
-const express = require('express')
-const app = express()
-const PORT = process.env.PORT || '3000'
-
-app.get('/', (req, res, next) => {
-  res.send('Hello World')
-})
-
-app.listen(PORT, () => {
-  console.log(`App listening on port: ${PORT}`)
-})
 
 ### Resources
 
